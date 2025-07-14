@@ -1,0 +1,8 @@
+streamlit
+langchain-groq
+openai
+numpy==1.26.4
+python-dotenv
+pyarrow
+pandas
+tqdm
