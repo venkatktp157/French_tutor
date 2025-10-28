@@ -7,7 +7,8 @@
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
-from langchain.memory.buffer import ConversationBufferMemory
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from langchain.memory import ConversationBufferMemory
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -24,7 +25,13 @@ chat = ChatGroq(api_key=groq_api_key, model_name="llama-3.3-70b-versatile")
 
 # 🧠 Setup memory
 if "memory" not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory(return_messages=True)
+    chat_history = StreamlitChatMessageHistory()
+    memory = ConversationBufferMemory(
+        memory_key="chat_history",
+        chat_memory=chat_history,
+        return_messages=True
+    )
+    st.session_state.memory = memory
 
 st.title("👩‍🏫 French Grammar Tutor - Dual Agent App")
 
