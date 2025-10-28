@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
-
-
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
-from langchain_core.memory import ConversationBufferMemory
-from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from langchain.memory import ConversationBufferMemory
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -25,13 +21,7 @@ chat = ChatGroq(api_key=groq_api_key, model_name="llama-3.3-70b-versatile")
 
 # 🧠 Setup memory
 if "memory" not in st.session_state:
-    chat_history = StreamlitChatMessageHistory()
-    memory = ConversationBufferMemory(
-        memory_key="chat_history",
-        chat_memory=chat_history,
-        return_messages=True
-    )
-    st.session_state.memory = memory
+    st.session_state.memory = ConversationBufferMemory(return_messages=True)
 
 st.title("👩‍🏫 French Grammar Tutor - Dual Agent App")
 
@@ -45,7 +35,7 @@ if not terminate:
 
         teacher_prompt = f"""
         You are a native French grammar expert tutoring a student.
-        
+
         For the student's question, respond with:
         1. A clear answer in French.
         2. A brief grammar explanation in French.
@@ -53,8 +43,8 @@ if not terminate:
         4. A list of 2–3 synonyms if vocabulary is involved.
         5. Alternative phrasing that conveys the same meaning.
         6. Common learner mistakes or misconceptions to watch out for.
-        7. Whether the sentence/phrasing is formal or informal.        
-        
+        7. Whether the sentence/phrasing is formal or informal.
+
         Question: {student_input}
         """
         try:
@@ -69,10 +59,3 @@ if not terminate:
             st.error(f"❌ Groq model error: {e}")
 else:
     st.success("Conversation ended. Merci beaucoup!")
-
-
-# In[ ]:
-
-
-
-
