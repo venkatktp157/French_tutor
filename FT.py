@@ -7,8 +7,8 @@
 import streamlit as st
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
+from langchain_core.memory import ConversationBufferMemory
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
-from langchain.memory import ConversationBufferMemory
 import warnings
 warnings.filterwarnings('ignore')
 
